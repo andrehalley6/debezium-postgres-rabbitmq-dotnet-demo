@@ -3,8 +3,8 @@ using RabbitMQ.Client.Events;
 using System.Text;
 
 // Read config from environment, fall back to sensible defaults
-string host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
-int port   = int.TryParse(Environment.GetEnvironmentVariable("RABBITMQ_PORT"), out var p) ? p : 5673;
+string host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "rabbitmq";
+int port = int.TryParse(Environment.GetEnvironmentVariable("RABBITMQ_PORT"), out var p) ? p : 5672;
 string user = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "guest";
 string pass = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? "guest";
 
@@ -72,8 +72,8 @@ Console.WriteLine("Consumer is up. Waiting for messages. Press Ctrl+C to exit.")
 var shutdown = new ManualResetEventSlim(false);
 Console.CancelKeyPress += (s, e) =>
 {
-    e.Cancel = true;   // Let us clean up gracefully
+    e.Cancel = true;    // Let us clean up gracefully
     shutdown.Set();
 };
 
-shutdown.Wait();       // Block indefinitely
+shutdown.Wait();    // Block indefinitely
